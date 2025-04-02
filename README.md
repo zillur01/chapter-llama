@@ -279,11 +279,12 @@ Additionaly, you can use the `tools/results/evaluate_results.ipynb` notebook to 
 
 </details>
 
-<details><summary>I just want chapters for a single video! 📹</summary>
+## Quick Start ⚡
+
+<details><summary>Single Video Chaptering 📹</summary>
 &emsp; 
 
-
-Got it! Here's how to use Chapter-Llama for a single video:
+If you just want to generate chapters for a single video:
 
 ```bash
 # Clone the repository
@@ -308,6 +309,28 @@ Chapters and the full output text will be saved in `outputs/inference/<video_nam
 
 </details>
 
+
+<details><summary>Interactive Demo 🎮</summary>
+&emsp; 
+
+We also provide an interactive demo where you can upload videos and visualize the generated chapters:
+
+```bash
+# Clone the repository
+git clone https://github.com/lucas-ventura/chapter-llama.git
+cd chapter-llama
+
+# Install demo dependencies
+python -m pip install -e ".[demo]"
+
+# Launch the demo
+python demo.py
+```
+
+The demo will start a local web server that you can access in your browser.
+You can upload videos, generate chapters, and see them visualized on the video timeline.
+
+</details>
 
 ## Citation 📝
 If you use this code in your work, please cite our [paper](https://arxiv.org/abs/TODO):
