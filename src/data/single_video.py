@@ -22,7 +22,7 @@ class SingleVideo:
         self.video_path = video_path
         self.video_ids = [video_path.stem]
         assert video_path.exists(), f"Video file {video_path} not found"
-        self.asr, self.duration = get_asr(video_path)
+        self.asr, self.duration = get_asr(video_path, overwrite=True)
 
     def __len__(self):
         return len(self.video_ids)
@@ -44,11 +44,11 @@ class SingleVideo:
         return self.asr
 
 
-def get_asr(video_path: Path):
+def get_asr(video_path: Path, overwrite=False):
     output_dir = Path(f"outputs/inference/{video_path.stem}")
     asr_output = output_dir / "asr.txt"
     duration_output = output_dir / "duration.txt"
-    if asr_output.exists() and duration_output.exists():
+    if asr_output.exists() and duration_output.exists() and not overwrite:
         asr = openf(asr_output)
         asr = "\n".join(asr) + "\n"
 
