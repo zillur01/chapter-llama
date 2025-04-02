@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+configs/local/default.yaml
+/data/
+/logs/
+.env
+
+delete*
+.vscode/
+*.swp
+*.egg-info/
+
+dataset
+wandb/
+outputs/
+checkpoints
+pyproject.toml
+
+HwwwH
+openbmb
+openbmb/MiniCPM-V-2
+models--*
