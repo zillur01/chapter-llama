@@ -207,9 +207,9 @@ dataset/
 │   └── subset_data/
 │       ├── sml1k_train.json                    # Video ids for our training subset
 │       ├── asrs/
-│           └── asrs_sml1k_train.json           # ASR data for our training subset
+│       │   └── asrs_sml1k_train.json           # ASR data for our training subset
 │       ├── chapters/
-│           └── chapters_sml1k_train.json       # Chapter data for our training subset
+│       │   └── chapters_sml1k_train.json       # Chapter data for our training subset
 │       └── ...
 ├── videos/                                     # Optional, for testing on new videos
 └── embs/                                       # Optional, for embedding experiments
