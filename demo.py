@@ -1,4 +1,5 @@
 import os
+import sys
 import tempfile
 from pathlib import Path
 from urllib.request import getproxies
@@ -143,26 +144,76 @@ def load_peft(model_name: str = "asr-10k"):
     return True
 
 
-def process_video(video_file, model_name: str = "asr-10k", do_sample: bool = False):
-    """Process a video file and generate chapters."""
-    if video_file is None:
-        return "Please upload a video file."
+def download_from_url(url, output_path):
+    """Download a video from a URL using yt-dlp and save it to output_path."""
+    try:
+        # Import yt-dlp Python package
+        try:
+            import yt_dlp
+        except ImportError:
+            log.error("yt-dlp Python package is not installed")
+            return (
+                False,
+                "yt-dlp Python package is not installed. Please install it with 'pip install yt-dlp'.",
+            )
 
+        # Configure yt-dlp options
+        ydl_opts = {
+            "format": "best",
+            "outtmpl": str(output_path),
+            "noplaylist": True,
+            "quiet": True,
+        }
+
+        # Download the video
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+
+        # Check if the download was successful
+        if not os.path.exists(output_path):
+            return (
+                False,
+                "Download completed but video file not found. Please check the URL.",
+            )
+
+        return True, None
+    except Exception as e:
+        error_msg = f"Error downloading video: {str(e)}"
+        log.error(error_msg)
+        return False, error_msg
+
+
+def process_video(
+    video_file, video_url, model_name: str = "asr-10k", do_sample: bool = False
+):
+    """Process a video file or URL and generate chapters."""
     progress = gr.Progress()
     progress(0, desc="Starting...")
+
+    # Check if we have a valid input
+    if video_file is None and not video_url:
+        return "Please upload a video file or provide a URL."
 
     # Load the PEFT model
     progress(0.1, desc=f"Loading LoRA parameters from {model_name}...")
     if not load_peft(model_name):
         return "Failed to load model. Please try again."
 
-    # Create a temporary directory to save the uploaded video
+    # Create a temporary directory to save the uploaded or downloaded video
     with tempfile.TemporaryDirectory() as temp_dir:
-        progress(0.2, desc="Processing uploaded video...")
         temp_video_path = Path(temp_dir) / "temp_video.mp4"
-        # Save the uploaded file
-        with open(temp_video_path, "wb") as f:
-            f.write(video_file)
+
+        if video_file is not None:
+            # Using uploaded file
+            progress(0.2, desc="Processing uploaded video...")
+            with open(temp_video_path, "wb") as f:
+                f.write(video_file)
+        else:
+            # Using URL
+            progress(0.2, desc=f"Downloading video from URL: {video_url}...")
+            success, error_msg = download_from_url(video_url, temp_video_path)
+            if not success:
+                return f"Failed to download video: {error_msg}"
 
         # Process the video
         progress(0.3, desc="Extracting ASR transcript...")
@@ -200,7 +251,9 @@ def process_video(video_file, model_name: str = "asr-10k", do_sample: bool = Fal
 with gr.Blocks(title="Chapter-Llama") as demo:
     gr.Markdown("# Chapter-Llama")
     gr.Markdown("## Chaptering in Hour-Long Videos with LLMs")
-    gr.Markdown("Upload a video file to generate chapters automatically.")
+    gr.Markdown(
+        "Upload a video file or provide a URL to generate chapters automatically."
+    )
     gr.Markdown(
         """
         This demo is currently using only the audio data (ASR), without frame information. 
@@ -214,9 +267,17 @@ with gr.Blocks(title="Chapter-Llama") as demo:
 
     with gr.Row():
         with gr.Column():
-            video_input = gr.File(
-                label="Upload Video", file_types=["video", "audio"], type="binary"
-            )
+            with gr.Tab("Upload File"):
+                video_input = gr.File(
+                    label="Upload Video", file_types=["video", "audio"], type="binary"
+                )
+
+            with gr.Tab("Video URL"):
+                video_url_input = gr.Textbox(
+                    label="YouTube or Video URL",
+                    placeholder="https://youtube.com/watch?v=...",
+                )
+
             model_dropdown = gr.Dropdown(
                 choices=["asr-10k", "asr-1k"],
                 value="asr-10k",
@@ -233,12 +294,15 @@ with gr.Blocks(title="Chapter-Llama") as demo:
                 label="Generated Chapters", lines=10, interactive=False
             )
 
-    def update_status_and_process(video_file, model_name, do_sample):
-        if video_file is None:
-            return "**Status:** No video uploaded", "Please upload a video file."
+    def update_status_and_process(video_file, video_url, model_name, do_sample):
+        if video_file is None and not video_url:
+            return (
+                "**Status:** No video uploaded or URL provided",
+                "Please upload a video file or provide a URL.",
+            )
         else:
             return "**Status:** Processing video...", process_video(
-                video_file, model_name, do_sample
+                video_file, video_url, model_name, do_sample
             )
 
     # Load the base model at startup
@@ -246,7 +310,7 @@ with gr.Blocks(title="Chapter-Llama") as demo:
 
     submit_btn.click(
         fn=update_status_and_process,
-        inputs=[video_input, model_dropdown, do_sample],
+        inputs=[video_input, video_url_input, model_dropdown, do_sample],
         outputs=[status_area, output_text],
     )
 
