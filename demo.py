@@ -11,10 +11,7 @@ from src.data.single_video import SingleVideo
 from src.data.utils_asr import PromptASR
 from src.models.llama_inference import inference
 from src.test.vidchapters import get_chapters
-from src.utils import RankedLogger
 from tools.download.models import download_model
-
-log = RankedLogger(__name__, rank_zero_only=True)
 
 # Set up proxies
 # from urllib.request import getproxies
@@ -37,7 +34,7 @@ def load_base_model():
     global base_model, tokenizer
 
     if base_model is None:
-        log.info(f"Loading base model: {LLAMA_CKPT_PATH}")
+        print(f"Loading base model: {LLAMA_CKPT_PATH}")
         base_model = load_model_llamarecipes(
             model_name=LLAMA_CKPT_PATH,
             device_map="auto",
@@ -49,7 +46,7 @@ def load_base_model():
         tokenizer = AutoTokenizer.from_pretrained(LLAMA_CKPT_PATH)
         tokenizer.pad_token = tokenizer.eos_token
 
-        log.info("Base model loaded successfully")
+        print("Base model loaded successfully")
 
 
 class FastLlamaInference:
@@ -120,11 +117,11 @@ def load_peft(model_name: str = "asr-10k"):
 
     # Only load a new PEFT model if it's different from the current one
     if current_peft_model != model_name:
-        log.info(f"Loading PEFT model: {model_name}")
+        print(f"Loading PEFT model: {model_name}")
         model_path = download_model(model_name)
 
         if not Path(model_path).exists():
-            log.warning(f"PEFT model does not exist at {model_path}")
+            print(f"PEFT model does not exist at {model_path}")
             return False
 
         # Apply the PEFT model to the base model
@@ -136,7 +133,7 @@ def load_peft(model_name: str = "asr-10k"):
         inference_model = FastLlamaInference(model=peft_model)
         current_peft_model = model_name
 
-        log.info(f"PEFT model {model_name} loaded successfully")
+        print(f"PEFT model {model_name} loaded successfully")
         return True
 
     # Model already loaded
@@ -150,7 +147,7 @@ def download_from_url(url, output_path):
         try:
             import yt_dlp
         except ImportError:
-            log.error("yt-dlp Python package is not installed")
+            print("yt-dlp Python package is not installed")
             return (
                 False,
                 "yt-dlp Python package is not installed. Please install it with 'pip install yt-dlp'.",
@@ -178,7 +175,7 @@ def download_from_url(url, output_path):
         return True, None
     except Exception as e:
         error_msg = f"Error downloading video: {str(e)}"
-        log.error(error_msg)
+        print(error_msg)
         return False, error_msg
 
 
