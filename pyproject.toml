@@ -53,11 +53,10 @@ dependencies = [
 [project.optional-dependencies]
 # --- Inference Extra ---
 inference = [
-    "prettytable",
     "whisperx",
-    "vllm",
-    "timm==0.9.10",
-    "decord",
+    # "vllm",
+    # "timm==0.9.10",
+    # "decord",
 ]
 
 # --- Shot Detection Extra ---
