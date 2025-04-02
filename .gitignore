@@ -18,6 +18,7 @@ wandb/
 outputs/
 checkpoints
 pyproject.toml
+.DS_Store
 
 HwwwH
 openbmb
