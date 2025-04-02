@@ -1,5 +1,7 @@
+import os
 import tempfile
 from pathlib import Path
+from urllib.request import getproxies
 
 import gradio as gr
 
@@ -8,9 +10,6 @@ from src.data.utils_asr import PromptASR
 from src.models.llama_inference import LlamaInference
 from src.test.vidchapters import get_chapters
 from tools.download.models import download_model
-
-# import os
-# from urllib.request import getproxies
 
 # proxies = getproxies()
 # os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = proxies["http"]
@@ -74,12 +73,12 @@ def process_video(video_file, model_name: str = "asr-10k"):
 
 
 # Create the Gradio interface
-with gr.Blocks(title="Video Chapter Generator") as demo:
-    gr.Markdown("# Video Chapter Generator")
+with gr.Blocks(title="Chapter-LLaMA") as demo:
+    gr.Markdown("# Chapter-LLaMA")
+    gr.Markdown("## Efficient Chaptering in Hour-Long Videos with LLMs")
     gr.Markdown("Upload a video file to generate chapters automatically.")
     gr.Markdown(
         """
-        ## Note
         This demo is currently using only the audio data (ASR), without frame information. 
         We will add audio+captions functionality in the near future, which will improve 
         chapter generation by incorporating visual content.
