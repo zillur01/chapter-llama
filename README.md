@@ -97,7 +97,7 @@ The code was tested on Python 3.12.9 and PyTorch 2.6.0
 For inference on videos that are not in the VidChapter-7M dataset, 
 you will need to install the following dependencies to extract ASR and captions from the video (not required for training):
 ```bash
-python -m pip install -e .[inference]
+python -m pip install -e ".[inference]"
 ```
 
 </details>
