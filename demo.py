@@ -73,8 +73,8 @@ def process_video(video_file, model_name: str = "asr-10k"):
 
 
 # Create the Gradio interface
-with gr.Blocks(title="Chapter-LLaMA") as demo:
-    gr.Markdown("# Chapter-LLaMA")
+with gr.Blocks(title="Chapter-Llama") as demo:
+    gr.Markdown("# Chapter-Llama")
     gr.Markdown("## Efficient Chaptering in Hour-Long Videos with LLMs")
     gr.Markdown("Upload a video file to generate chapters automatically.")
     gr.Markdown(
@@ -82,6 +82,9 @@ with gr.Blocks(title="Chapter-LLaMA") as demo:
         This demo is currently using only the audio data (ASR), without frame information. 
         We will add audio+captions functionality in the near future, which will improve 
         chapter generation by incorporating visual content.
+        
+        - GitHub: [https://github.com/lucas-ventura/chapter-llama](https://github.com/lucas-ventura/chapter-llama)
+        - Website: [https://imagine.enpc.fr/~lucas.ventura/chapter-llama/](https://imagine.enpc.fr/~lucas.ventura/chapter-llama/)
         """
     )
 
