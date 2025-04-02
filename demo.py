@@ -91,7 +91,7 @@ with gr.Blocks(title="Chapter-Llama") as demo:
     with gr.Row():
         with gr.Column():
             video_input = gr.File(
-                label="Upload Video", file_types=["video"], type="binary"
+                label="Upload Video", file_types=["video", "audio"], type="binary"
             )
             model_dropdown = gr.Dropdown(
                 choices=["asr-10k", "asr-1k"],
