@@ -24,3 +24,4 @@ HwwwH
 openbmb
 openbmb/MiniCPM-V-2
 models--*
+.gradio/

@@ -59,6 +59,12 @@ inference = [
     # "decord",
 ]
 
+# --- Gradio Extra ---
+demo = [
+    "whisperx",
+    "gradio",
+]
+
 # --- Shot Detection Extra ---
 shot-detection = [
     "scenedetect",
