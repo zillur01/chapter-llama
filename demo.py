@@ -269,7 +269,9 @@ with gr.Blocks(title="Chapter-Llama") as demo:
         with gr.Column():
             with gr.Tab("Upload File"):
                 video_input = gr.File(
-                    label="Upload Video", file_types=["video", "audio"], type="binary"
+                    label="Upload Video or Audio File",
+                    file_types=["video", "audio"],
+                    type="binary",
                 )
 
             with gr.Tab("Video URL"):
