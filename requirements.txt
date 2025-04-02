@@ -20,7 +20,6 @@ rich
 git+https://github.com/lucas-ventura/lutils.git
 git+https://github.com/idriscnrs/idr_torch.git
 pycocoevalcap
-prettytable
 hf_transfer
 
 # --------- for shot detection --------- #
