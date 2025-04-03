@@ -13,13 +13,6 @@ from src.models.llama_inference import inference
 from src.test.vidchapters import get_chapters
 from tools.download.models import download_model
 
-# Set up proxies
-# from urllib.request import getproxies
-# proxies = getproxies()
-# os.environ["HTTP_PROXY"] = os.environ["http_proxy"] = proxies["http"]
-# os.environ["HTTPS_PROXY"] = os.environ["https_proxy"] = proxies["https"]
-# os.environ["NO_PROXY"] = os.environ["no_proxy"] = "localhost, 127.0.0.1/8, ::1"
-
 # Global variables to store loaded models
 base_model = None
 tokenizer = None
