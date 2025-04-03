@@ -243,21 +243,57 @@ def process_video(
         return output
 
 
+# CSS for the submit button color
+head = """
+<head>
+    <title>Chapter-Llama - VidChapters</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+</head>
+"""
+
+title_markdown = """
+<div style="display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, rgba(72,219,251,0.1), rgba(29,209,161,0.1)); border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
+    <div style="display: flex; align-items: center;">
+        <a href="https://github.com/lucas-ventura/chapter-llama" style="margin-right: 20px; text-decoration: none; display: flex; align-items: center;">
+            <img src="https://imagine.enpc.fr/~lucas.ventura/chapter-llama/images/chapter-llama.png" alt="Chapter-Llama" style="max-width: 100px; height: auto; border-radius: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        </a>
+        <div>
+            <h1 style="margin: 0; background: linear-gradient(90deg, #8F68C3, #477EF4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5em; font-weight: 700;">Chapter-Llama</h1>
+            <h2 style="margin: 10px 0; background: linear-gradient(90deg, #8F68C3, #477EF4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.8em; font-weight: 600;">Efficient Chaptering in Hour-Long Videos with LLMs</h2>           
+            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                <a href="https://github.com/lucas-ventura/chapter-llama" style="text-decoration: none; color: #8F68C3; font-weight: 500; transition: color 0.3s;">GitHub</a> |
+                <a href="https://imagine.enpc.fr/~lucas.ventura/chapter-llama/" style="text-decoration: none; color: #8F68C3; font-weight: 500; transition: color 0.3s;">Project Page</a> |
+                <a href="https://arxiv.org/abs/2504.00072" style="text-decoration: none; color: #8F68C3; font-weight: 500; transition: color 0.3s;">Paper</a>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: right; margin-left: 20px;">
+        <h2 style="margin: 10px 0; color: #24467C; font-weight: 700; font-size: 2.5em;">CVPR 2025</h2>
+    </div>
+</div>
+"""
+
+# Citation from demo_sample.py
+bibtext = """
+### Citation
+```
+@article{ventura25chapter,
+  title = {{Chapter-Llama}: Efficient Chaptering in Hour-Long Videos with {LLM}s},
+  author = {Lucas Ventura and Antoine Yang and Cordelia Schmid and G{\"u}l Varol},
+  journal = {CVPR},
+  year = {2025}
+}
+```
+"""
+
 # Create the Gradio interface
-with gr.Blocks(title="Chapter-Llama") as demo:
-    gr.Markdown("# Chapter-Llama")
-    gr.Markdown("## Chaptering in Hour-Long Videos with LLMs")
-    gr.Markdown(
-        "Upload a video file or provide a URL to generate chapters automatically."
-    )
+with gr.Blocks(title="Chapter-Llama", head=head) as demo:
+    gr.HTML(title_markdown)
     gr.Markdown(
         """
         This demo is currently using only the audio data (ASR), without frame information. 
         We will add audio+captions functionality in the near future, which will improve 
         chapter generation by incorporating visual content.
-        
-        - GitHub: [https://github.com/lucas-ventura/chapter-llama](https://github.com/lucas-ventura/chapter-llama)
-        - Website: [https://imagine.enpc.fr/~lucas.ventura/chapter-llama/](https://imagine.enpc.fr/~lucas.ventura/chapter-llama/)
         """
     )
 
@@ -289,7 +325,7 @@ with gr.Blocks(title="Chapter-Llama") as demo:
         with gr.Column():
             status_area = gr.Markdown("**Status:** Ready to process video")
             output_text = gr.Textbox(
-                label="Generated Chapters", lines=10, interactive=False
+                label="Generated Chapters", lines=12, interactive=False
             )
 
     def update_status_and_process(video_file, video_url, model_name, do_sample):
@@ -311,6 +347,8 @@ with gr.Blocks(title="Chapter-Llama") as demo:
         inputs=[video_input, video_url_input, model_dropdown, do_sample],
         outputs=[status_area, output_text],
     )
+
+    gr.Markdown(bibtext)
 
 
 if __name__ == "__main__":
