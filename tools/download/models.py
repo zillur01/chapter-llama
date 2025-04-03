@@ -45,7 +45,6 @@ def download_model(model_id_or_path, overwrite=False, local_dir=None):
 def download_base_model(
     repo_id="meta-llama/Meta-Llama-3.1-8B-Instruct",
     local_dir="./checkpoints/",
-    use_symlinks=False,
 ):
     """
     Downloads the base model from Hugging Face Hub.
@@ -53,16 +52,13 @@ def download_base_model(
     Args:
         repo_id (str): The repository ID on Hugging Face
         local_dir (str): Directory to save the model to
-        use_symlinks (bool): Whether to use symlinks for the downloaded files
 
     Returns:
         str: Path to the downloaded model directory
     """
     try:
         print(f"Downloading {repo_id} to {local_dir}...")
-        model_path = snapshot_download(
-            repo_id=repo_id, local_dir=local_dir, local_dir_use_symlinks=use_symlinks
-        )
+        model_path = snapshot_download(repo_id=repo_id, local_dir=local_dir)
         print(f"Model downloaded successfully to: {model_path}")
         return model_path
     except Exception as e:
