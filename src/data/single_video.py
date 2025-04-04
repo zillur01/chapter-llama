@@ -3,7 +3,9 @@ from pathlib import Path
 from lutils import openf, writef
 
 from src.data.chapters import sec_to_hms
-from tools.extract.asr import ASRProcessor
+
+# from tools.extract.asr_whisperx import ASRProcessor
+from tools.extract.asr_faster_whisper import ASRProcessor
 
 
 class SingleVideo:
