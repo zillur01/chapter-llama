@@ -32,12 +32,12 @@
 </div>
 
 ## Description
-This repository contains the code for the paper ["Chapter-Llama: Efficient Chaptering in Hour-Long Videos with LLMs"](https://arxiv.org/abs/TODO) (CVPR 2025).
+This repository contains the code for the paper ["Chapter-Llama: Efficient Chaptering in Hour-Long Videos with LLMs"](https://arxiv.org/abs/2504.00072) (CVPR 2025).
 
 Please visit our [webpage](http://imagine.enpc.fr/~lucas.ventura/chapter-llama/) for more details.
 
 
-<details><summary>Project Structure</summary>
+<details><summary><strong>Project Structure</strong></summary>
 &emsp; 
 
 ```
@@ -75,7 +75,7 @@ Please visit our [webpage](http://imagine.enpc.fr/~lucas.ventura/chapter-llama/)
 
 ## Installation 👷
 
-<details><summary>Create environment</summary>
+<details><summary><strong>Create environment</strong></summary>
 &emsp; 
 
 ```bash
@@ -94,7 +94,7 @@ python -m pip install -e .
 
 The code was tested on Python 3.12.9 and PyTorch 2.6.0
 
-For inference on videos that are not in the VidChapter-7M dataset, 
+For inference on videos that are not in the VidChapters-7M dataset, 
 you will need to install the following dependencies to extract ASR and captions from the video (not required for training):
 ```bash
 python -m pip install -e ".[inference]"
@@ -102,7 +102,7 @@ python -m pip install -e ".[inference]"
 
 </details>
 
-<details><summary>Download models</summary>
+<details><summary><strong>Download models</strong></summary>
 &emsp; 
 
 The `Llama-3.1-8B-Instruct` model will be downloaded automatically from Hugging Face, 
@@ -110,9 +110,9 @@ make sure you agree to the license terms [here](https://huggingface.co/meta-llam
 If you already have it downloaded, please check the [`llama3.1_8B.yaml`](configs/model/llama3.1_8B.yaml) config file to specify the checkpoint path.
 
 We provide 3 LoRA parameter sets for Llama-3.1-8B-Instruct:
-- `asr-10k`: Model trained with ASR from 10k videos of the VidChapter-7M dataset. Used for our Speech-based frame selector.
-- `captions_asr-10k`: Model trained with Captions+ASR from 10k videos of the VidChapter-7M dataset. Used for most of our experiments.
-- `captions_asr-1k`: Model trained with Captions+ASR from 1k videos of the VidChapter-7M dataset. Used for the full test set.
+- `asr-10k`: Model trained with ASR from 10k videos of the VidChapters-7M dataset. Used for our Speech-based frame selector.
+- `captions_asr-10k`: Model trained with Captions+ASR from 10k videos of the VidChapters-7M dataset. Used for most of our experiments.
+- `captions_asr-1k`: Model trained with Captions+ASR from 1k videos of the VidChapters-7M dataset. Used for the full test set.
 
 To download the LoRA parameter sets, run:
 ```bash
@@ -125,17 +125,17 @@ python tools/download/models.py "captions_asr-10k" --local_dir "."
 </details>
 
 
-<details><summary>Download captions</summary>
+<details><summary><strong>Download captions</strong></summary>
 &emsp; 
 
-First, create a directory to store the data and create a symlink to it from VidChapters directory:
+First, create a directory to store the data and create a symlink to it from the VidChapters directory:
 ```bash
 mkdir path/to/VidChapters/
 ln -s path/to/VidChapters/ dataset/
 ```
 
 The `dataset/captions/` directory contains the video captions organized by the captioning model used (`HwwwH_MiniCPM-V-2`) and the sampling method. 
-To download the captions for the our sampling method (`asr_s10k-2_train_preds+no-asr-10s`), run:
+To download the captions for our sampling method (`asr_s10k-2_train_preds+no-asr-10s`), run:
 ```bash
 bash tools/download/captions.sh asr_s10k-2_train_preds+no-asr-10s
 ```
@@ -151,7 +151,7 @@ Please refer to the [how_to_extract_captions.md](tools/captions/how_to_extract_c
 
 </details>
 
-<details><summary>Download docs</summary>
+<details><summary><strong>Download docs</strong></summary>
 &emsp; 
 
 The `dataset/docs/` directory contains the ASR and chapter data for the VidChapters-7M dataset. We provide:
@@ -163,7 +163,7 @@ To download a specific subset's data (which includes video ids, ASR and chapter 
 bash tools/download/docs.sh subset_name
 ```
 
-Where `subset_name` can be `full` for the complete dataset or one of the following.
+Where `subset_name` can be `full` for the complete dataset or one of the following:
 
 Training sets:
 - `sml1k_train`: Training set with 1k videos (**s**hort+**m**edium+**l**ong)
@@ -190,7 +190,7 @@ The ASR and chapter data will be created automatically when calling the `Chapter
 
 </details>
 
-<details><summary>Dataset structure</summary>
+<details><summary><strong>Dataset structure</strong></summary>
 &emsp; 
 Here's how the dataset folder should be structured:
 
@@ -219,7 +219,7 @@ dataset/
 
 ## Usage 💻
 
-<details><summary>Training and testing</summary>
+<details><summary><strong>Training and testing</strong></summary>
 &emsp; 
 
 <!-- TODO:export PYTHONPATH=$PYTHONPATH:$(pwd) -->
@@ -228,7 +228,7 @@ The command to launch a training experiment is the following:
 ```bash
 python train.py [OPTIONS]
 ```   
-or does train.py and test.py with the same options:
+or to run both train.py and test.py with the same options:
 ```bash
 bash train.sh [OPTIONS]
 ```
@@ -243,14 +243,14 @@ Note: You might need to run the test script with a single GPU (`CUDA_VISIBLE_DEV
 </details>
 
 
-<details><summary>Configuration</summary>
+<details><summary><strong>Configuration</strong></summary>
 &emsp; 
 
 The project uses Hydra for configuration management. Key configuration options:
 
-- `data`: asr, captions, captions_asr, captions_asr_given_times, captions_asr_given_titiles, captions_asr_window
+- `data`: asr, captions, captions_asr, captions_asr_given_times, captions_asr_given_titles, captions_asr_window
 - `subset_train`: Training dataset subset (default: "s1k_train")
-- `paths`: To change default paths, create a `default.yaml` file in `configs/local/` and modify it as `configs/local/example.yaml`
+- `paths`: To change default paths, create a `default.yaml` file in `configs/local/` and modify it as in `configs/local/example.yaml`
 - `model`: `llama3.1_8B` (default), `zero-shot`, `llama3.2_3B`, etc.
 
 For example, to run training with the `sml1k_train` subset with ASR only, run:
@@ -262,7 +262,7 @@ bash train.sh data=asr subset_train=sml1k_train subset_test=sml300_val
 </details>
 
 
-<details><summary>Results</summary>
+<details><summary><strong>Results</strong></summary>
 &emsp; 
 
 To get results from a single test experiment, run:
@@ -275,13 +275,13 @@ For example:
 python tools/results/evaluate_results.py outputs/chapterize/Meta-Llama-3.1-8B-Instruct/captions_asr/asr_s10k-2_train_preds+no-asr-10s/sml1k_train/default/test/
 ```
 
-Additionaly, you can use the `tools/results/evaluate_results.ipynb` notebook to compare results from different video chapter generation experiments.
+Additionally, you can use the `tools/results/evaluate_results.ipynb` notebook to compare results from different video chapter generation experiments.
 
 </details>
 
 ## Quick Start ⚡
 
-<details><summary>Single Video Chaptering 📹</summary>
+<details><summary><strong>Single Video Chaptering 📹</strong></summary>
 &emsp; 
 
 If you just want to generate chapters for a single video:
@@ -310,7 +310,7 @@ Chapters and the full output text will be saved in `outputs/inference/<video_nam
 </details>
 
 
-<details><summary>Interactive Demo 🎮</summary>
+<details><summary><strong>Interactive Demo 🎮</strong></summary>
 &emsp; 
 
 We also provide an interactive demo where you can upload videos and visualize the generated chapters:
@@ -333,7 +333,7 @@ You can upload videos, generate chapters, and see them visualized on the video t
 </details>
 
 ## Citation 📝
-If you use this code in your work, please cite our [paper](https://arxiv.org/abs/TODO):
+If you use this code in your work, please cite our [paper](https://arxiv.org/abs/2504.00072):
 
 ```bibtex
 @article{ventura25chapter,
