@@ -339,7 +339,7 @@ If you use this code in your work, please cite our [paper](https://arxiv.org/abs
 @InProceedings{ventura25chapter,
     title     = {{Chapter-Llama}: Efficient Chaptering in Hour-Long Videos with {LLM}s},
     author    = {Lucas Ventura and Antoine Yang and Cordelia Schmid and G{"u}l Varol},
-    journal   = {CVPR},
+    booktitle = {CVPR},
     year      = {2025}
   }
 ```
