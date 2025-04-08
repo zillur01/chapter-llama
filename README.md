@@ -341,7 +341,7 @@ If you use this code in your work, please cite our [paper](https://arxiv.org/abs
     author    = {Lucas Ventura and Antoine Yang and Cordelia Schmid and G{"u}l Varol},
     booktitle = {CVPR},
     year      = {2025}
-  }
+}
 ```
 
 ## Acknowledgements
