@@ -190,6 +190,28 @@ The ASR and chapter data will be created automatically when calling the `Chapter
 
 </details>
 
+
+<details><summary><strong>Download videos</strong></summary>
+&emsp;
+
+**Note:** 
+Downloading videos is not necessary for training or testing since we provide the extracted captions and ASR data via Hugging Face (see commands above). 
+This step is only required if you want to process new videos from different subsets 
+or extract additional captions.
+
+To download videos, install the [`yt-dlp`](https://pypi.org/project/yt-dlp/) library and run:
+```bash
+python tools/download/videos.py dataset/docs/subset_data/subset_name.json
+```
+
+The videos will be downloaded to `dataset/videos/`.
+
+
+</details>
+
+
+
+
 <details><summary><strong>Dataset structure</strong></summary>
 &emsp; 
 Here's how the dataset folder should be structured:
