@@ -51,7 +51,6 @@ from transformers.models.mllama.modeling_mllama import (
     MllamaVisionEncoderLayer,
 )
 
-from src.models.convert_ft_files import convert_ft_files
 from src.models.utils_tokenizer import tokenize_dialog
 from src.utils import RankedLogger
 
@@ -406,11 +405,6 @@ def main(dataset_train, **kwargs):
         rank if train_config.enable_fsdp else None,
         wandb_run,
     )
-    if not train_config.use_peft and rank == 0:
-        convert_ft_files(
-            model_checkpoints_ff=train_config.dist_checkpoint_root_folder,
-            HF_model_path_or_name=train_config.model_name,
-        )
     # if not train_config.enable_fsdp or rank == 0:
     #     [log.info(f"Key: {k}, Value: {v}") for k, v in results.items()]
     #     if train_config.use_wandb:
