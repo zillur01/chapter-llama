@@ -206,6 +206,9 @@ python tools/download/videos.py dataset/docs/subset_data/subset_name.json
 
 The videos will be downloaded to `dataset/videos/`.
 
+If you encounter any issues with `yt-dlp`, you can find the video subsets `sml1k_train`, `sml300_val`, and `test` on Hugging Face.
+Access them here: [Hugging Face Datasets - lucas-ventura/chapter-llama](https://huggingface.co/datasets/lucas-ventura/chapter-llama/tree/main/videos).
+
 
 </details>
 
