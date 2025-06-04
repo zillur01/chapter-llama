@@ -249,7 +249,7 @@ class Chapters:
 
     @staticmethod
     def sec_to_hms(seconds, string=True, short=False):
-        return sec_to_hms(seconds, string=True, short=False)
+        return sec_to_hms(seconds, string=string, short=short)
 
     @staticmethod
     def hms_to_sec(time_str, enable_single_part=False):
