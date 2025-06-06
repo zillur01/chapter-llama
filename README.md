@@ -166,9 +166,9 @@ bash tools/download/docs.sh subset_name
 Where `subset_name` can be `full` for the complete dataset or one of the following:
 
 Training sets:
-- `sml1k_train`: Training set with 1k videos (**s**hort+**m**edium+**l**ong)
-- `sml10k_train`: Training set with 10k videos (**s**hort+**m**edium+**l**ong)
-- `s10k-2_train`: Training set with 10k videos (**s**hort), used for our Speech-based frame selector
+- `sml1k_train`: Training set with 1k videos (**s**hort+**m**edium+**l**ong), used for ablation studies.
+- `sml10k_train`: Training set with 10k videos (**s**hort+**m**edium+**l**ong), used for Table 1 and the data scaling experiment (Figure 4).
+- `s10k-2_train`: Training set with 10k videos (**s**hort), used for our Speech-based frame selector.
 
 Validation sets:
 - `sml300_val`: Validation set with 300 videos (**s**hort+**m**edium+**l**ong)
